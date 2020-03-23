@@ -1,6 +1,6 @@
 # coding:utf-8
 from .__init__ import main
-from address_crawler.config.crawler_map import crawler_map
+from rent_crawler.config.region_map import region_map
 from itertools import chain
 import click
 
@@ -10,8 +10,8 @@ import click
                 type=click.Choice(
                     ['ALL',
                      'all',
-                     *list(crawler_map.keys()),
-                     *[k.lower() for k in crawler_map.keys()],
+                     *list(region_map.keys()),
+                     *[k.lower() for k in region_map.keys()],
                      ]))
 def get_crawlerList(sources):
 

@@ -38,3 +38,21 @@ def get_searchUrl(totalRows):
     base_url = 'https://rent.591.com.tw/home/search/rsList?'
     url = base_url + urlencode(params)
     return url
+    
+def get_searchUrlist(client,region,headers):
+    vars = get_var(client,region,headers)
+    headers['X-CSRF-Token'] = vars[1]
+    times = math.floor(int(vars[0])/30) +1 if int(vars[0])%30 !=0 else math.floor(int(vars[0])/30)
+    searchUrlist=[]
+    for firstRow in range(times):
+        searchUrl = get_searchUrl(firstRow,region,headers)
+        print(searchUrl)
+        res_search = client.get(searchUrl,headers=headers)
+        res_search.encoding = 'utf-8'
+        data = json.loads(res_search.text)
+#         print(data['data']['data'][0]['post_id'])
+        rent_list = [(i['post_id'],'https://rent.591.com.tw/rent-detail-'+str(i['post_id'])+'.html') for i in data['data']['data']]
+#         print(rent_list[0])
+        searchUrlist.extend(rent_list)     
+    return searchUrlist
+        

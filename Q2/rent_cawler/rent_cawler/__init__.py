@@ -1,9 +1,9 @@
 __ALL__ = ['main']
-from address_crawler.config.crawler_map import crawler_map
-from address_crawler.config.headers import user_agent_list
-from address_crawler.geocode import geocode
-from address_crawler.geocode import get_location
-from address_crawler.geocode import get_wikiData
+from rent_crawler.config.region_map import region_map
+from rent_crawler.config.headers import user_agent_list
+from rent_crawler.geocode import geocode
+from rent_crawler.geocode import get_location
+from rent_crawler.geocode import get_wikiData
 from itertools import chain
 import random
 
@@ -23,13 +23,13 @@ def main(**kwargs):
     headers['user-agent'] = random.choice(user_agent_list)
     if 'all' in SOURCES:
         print('run all')
-        crawlerList = [func(headers) for func in crawler_map.values()]
+        crawlerList = [func(headers) for func in region_map.values()]
     else:
         crawlerList_v1 = []
         for src in SOURCES:
-            if src in crawler_map:
+            if src in region_map:
                 print('run ' + src + '...')
-                crawlerList_v1.append(crawler_map[src])
+                crawlerList_v1.append(region_map[src])
         crawlerList_v2 = [func(headers) for func in crawlerList_v1]
 
     # print(crawlerList_v2)

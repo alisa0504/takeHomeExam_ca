@@ -6,9 +6,9 @@ import sys
 is_local = os.path.split(os.getcwd())[-1] == 'bin'
 if is_local:
     print(f'Local execution {__file__}')
-    from context import address_crawler
+    from context import rent_crawler
 
-from address_crawler.cli import get_crawlerList
+from rent_crawler.cli import get_crawlerList
 
 if __name__ == '__main__':
     if is_local:

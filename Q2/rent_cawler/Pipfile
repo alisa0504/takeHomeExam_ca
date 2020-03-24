@@ -6,6 +6,17 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+flask = "*"
+fake-useragent = "*"
+pyyaml = "*"
+ua-parser = "*"
+user-agents = "*"
+beautifulsoup = "*"
+beautifulsoup4 = "*"
+lxml = "*"
+pandas = "*"
+requests = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.8"

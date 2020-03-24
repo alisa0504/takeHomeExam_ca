@@ -1,5 +1,3 @@
-from rent_crawler.crawlers import *
-
 region_map = {
     '台北市':'1',
     '基隆市':'2',

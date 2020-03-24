@@ -2,6 +2,8 @@
 
 import os
 import sys
+print(os.getcwd())
+
 
 is_local = os.path.split(os.getcwd())[-1] == 'bin'
 if is_local:
@@ -12,6 +14,6 @@ from rent_crawler.cli import get_crawlerList
 
 if __name__ == '__main__':
     if is_local:
-        sys.exit(get_crawlerList('airport'))
+        sys.exit(get_crawlerList('台北市'))
     else:
         sys.exit(get_crawlerList())

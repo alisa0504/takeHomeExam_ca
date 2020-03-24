@@ -1,20 +1,8 @@
 __ALL__ = ['main']
 from rent_crawler.config.region_map import region_map
 from rent_crawler.config.headers import user_agent_list
-from rent_crawler.geocode import geocode
-from rent_crawler.geocode import get_location
-from rent_crawler.geocode import get_wikiData
 from itertools import chain
 import random
-
-
-def get_geoLine(crawlerList, headers):
-    data = get_location(crawlerList, headers)
-    data_info = data[0]
-    data_error = data[1]
-    data_correct = get_wikiData(data_error)
-    data_info = data_info + data_correct
-    return data_info
 
 
 def main(**kwargs):

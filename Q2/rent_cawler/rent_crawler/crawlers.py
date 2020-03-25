@@ -54,7 +54,7 @@ def get_searchUrlist(client,region,headers):
         res_search.encoding = 'utf-8'
         data = json.loads(res_search.text)
 #         print(data['data']['data'][0]['post_id'])
-        rent_list = [[i['post_id'],i['region_name']+' '+i['fulladdress'],'https://rent.591.com.tw/rent-detail-'+str(i['post_id'])+'.html'] for i in data['data']['data']]
+        rent_list = [[i['post_id'],i['region_name'],i['region_name']+' '+i['fulladdress'],'https://rent.591.com.tw/rent-detail-'+str(i['post_id'])+'.html'] for i in data['data']['data']]
 #         print(rent_list[0])
         searchUrlist.extend(rent_list)     
     return searchUrlist
@@ -63,8 +63,9 @@ def get_house(searchUrl,headers):
     houses=[]
     for url in searchUrl:
         hid = url[0] 
-        address = url[1] 
-        detail_url = url[2]
+        region = url[1]
+        address = url[2] 
+        detail_url = url[3]
         res_detail = requests.get(detail_url,headers=headers)
         soup_detail = bs(res_detail.text, "lxml")
         if "soup_detail.select('div.userInfo > div > span.kfCallName')[0]['data-name']" in locals():
@@ -80,6 +81,7 @@ def get_house(searchUrl,headers):
         try:
             out_rec = {
                 'hid' : hid,
+                'region':region,
                 'address': address,
                 'name': name if "name" in locals() else None,
                 'dialPhone' : dialPhone if "dialPhone" in locals() else None,

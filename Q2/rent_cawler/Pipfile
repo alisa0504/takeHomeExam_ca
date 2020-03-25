@@ -17,6 +17,9 @@ lxml = "*"
 pandas = "*"
 requests = "*"
 python-dotenv = "*"
+dnspython = "*"
+pymongo = "*"
+os = "*"
 
 [requires]
 python_version = "3.8"

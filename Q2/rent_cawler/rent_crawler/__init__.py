@@ -1,10 +1,14 @@
 __ALL__ = ['main']
 from itertools import chain
-from rent_crawler.crawlers import get_searchUrlist,get_house
 from rent_crawler.config.headers import user_agent_list
 from rent_crawler.config.region_map import region_map
+from rent_crawler.crawlers import get_searchUrlist,get_house
+from rent_crawler.mongo import mongoDB
+from os import environ 
+import pymongo
 import random
 import requests
+
 
 
 def main(**kwargs):
@@ -28,3 +32,9 @@ def main(**kwargs):
     data_info = get_house(crawlerList, headers)
     print(data_info[-1])
     print(len(data_info))
+
+    ## to_mongo
+    house_0325 = mongoDB('house_0325')
+    [house_0325.add_doc(i) for i in data_info]
+    print('Mongo updated')
+    

@@ -34,7 +34,7 @@ def main(**kwargs):
     print(len(data_info))
 
     ## to_mongo
-    house_0325 = mongoDB('house_0325')
-    [house_0325.add_doc(i) for i in data_info]
+    house = mongoDB('house')
+    [house.add_doc(i) for i in data_info]
     print('Mongo updated')
     

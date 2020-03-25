@@ -54,7 +54,7 @@ def get_searchUrlist(client,region,headers):
         res_search.encoding = 'utf-8'
         data = json.loads(res_search.text)
 #         print(data['data']['data'][0]['post_id'])
-        rent_list = [[i['post_id'],i['region_name'],i['region_name']+' '+i['fulladdress'],'https://rent.591.com.tw/rent-detail-'+str(i['post_id'])+'.html'] for i in data['data']['data']]
+        rent_list = [[i['post_id'],i['region_name'],i['nick_name'],i['region_name']+' '+i['fulladdress'],'https://rent.591.com.tw/rent-detail-'+str(i['post_id'])+'.html'] for i in data['data']['data']]
 #         print(rent_list[0])
         searchUrlist.extend(rent_list)     
     return searchUrlist
@@ -64,18 +64,32 @@ def get_house(searchUrl,headers):
     for url in searchUrl:
         hid = url[0] 
         region = url[1]
-        address = url[2] 
-        detail_url = url[3]
+        name = url[2]
+        address = url[3] 
+        detail_url = url[4]
         res_detail = requests.get(detail_url,headers=headers)
         soup_detail = bs(res_detail.text, "lxml")
-        if "soup_detail.select('div.userInfo > div > span.kfCallName')[0]['data-name']" in locals():
-            name = soup_detail.select('div.userInfo > div > span.kfCallName')[0]['data-name']
-        if "soup_detail.select('div.userInfo > div > span.dialPhoneNum')[0]['data-value']" in locals():
+        try:
             dialPhone = soup_detail.select('div.userInfo > div > span.dialPhoneNum')[0]['data-value']
-        if  "soup_detail.select('div.userInfo > div > input#hid_tel')[0]['value']" in locals():
+        except :
+            dialPhone = None
+        try:
             hid_tel =  soup_detail.select('div.userInfo > div > input#hid_tel')[0]['value'] 
-        if  "soup_detail.select('div.userInfo > div > input#hid_email')[0]['value']" in locals():
+        except:
+            hid_tel = None
+        try:
             hid_email = soup_detail.select('div.userInfo > div > input#hid_email')[0]['value']
+        except:
+            hid_email = None
+
+        # if soup_detail.select('div.userInfo > div > span.kfCallName')[0]['data-name']:
+        #     name = soup_detail.select('div.userInfo > div > span.kfCallName')[0]['data-name']
+        # if soup_detail.select('div.userInfo > div > span.dialPhoneNum')[0]['data-value']:
+        #     dialPhone = soup_detail.select('div.userInfo > div > span.dialPhoneNum')[0]['data-value']
+        # if  soup_detail.select('div.userInfo > div > input#hid_tel')[0]['value']:
+        #     hid_tel =  soup_detail.select('div.userInfo > div > input#hid_tel')[0]['value'] 
+        # if  soup_detail.select('div.userInfo > div > input#hid_email')[0]['value']:
+        #     hid_email = soup_detail.select('div.userInfo > div > input#hid_email')[0]['value']
         infs = [{j[0].text.replace(' ',''):j[1].text.replace(' ','').replace('：','') for j in  zip(i.select('div.one'),i.select('div.two'))} for i in soup_detail.select('ul.clearfix.labelList.labelList-1 > li')]
         attrs = [{''.join(i.text.split(':')[0].split()):''.join(i.text.split(':')[1].split()) } for i in soup_detail.select('ul.attr > li')]
         try:
@@ -83,10 +97,10 @@ def get_house(searchUrl,headers):
                 'hid' : hid,
                 'region':region,
                 'address': address,
-                'name': name if "name" in locals() else None,
-                'dialPhone' : dialPhone if "dialPhone" in locals() else None,
-                'hid_tel' : hid_tel if "hid_tel" in locals() else None,
-                'hid_email' : hid_email if "hid_email" in locals() else None,
+                'name': name ,
+                'dialPhone' : dialPhone ,
+                'hid_tel' : hid_tel,
+                'hid_email' : hid_email,
                 'price':soup_detail.select('div.price')[0].text.split('\n')[1],
                 'url':detail_url
                 

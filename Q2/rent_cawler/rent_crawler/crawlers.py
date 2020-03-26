@@ -29,11 +29,13 @@ trans = {'押金': 'deposit',
 '產權登記': 'registration',
 '格局': 'addition',
 '坪數': 'ping',
+'權狀坪數': 'ping',
 '樓層': 'floor',
 '性別要求': 'gender',
 '型態':'type',
 '非於政府免付費公開資料可查詢法定用途':'in_law_function' ,
-'非於政府免付費公開資料可查詢建物面積': 'in_law_area',}
+'非於政府免付費公開資料可查詢建物面積': 'in_law_area',
+'現況':'current'}
 
 def get_var(client,region,headers):
     index_url='https://rent.591.com.tw/?kind=0&regionid='+region_map[region]
@@ -110,8 +112,8 @@ def get_house(searchUrl,headers):
         #     hid_tel =  soup_detail.select('div.userInfo > div > input#hid_tel')[0]['value'] 
         # if  soup_detail.select('div.userInfo > div > input#hid_email')[0]['value']:
         #     hid_email = soup_detail.select('div.userInfo > div > input#hid_email')[0]['value']
-        infs = [{trans[j[0].text.replace(' ','')]:j[1].text.replace(' ','').replace('：','') for j in  zip(i.select('div.one'),i.select('div.two'))} for i in soup_detail.select('ul.clearfix.labelList.labelList-1 > li')]
-        attrs = [{trans[''.join(i.text.split(':')[0].split())]:''.join(i.text.split(':')[1].split()) } for i in soup_detail.select('ul.attr > li')]
+        infs = [{trans[j[0].text.replace(' ','')] if j[0].text.replace(' ','') in trans else None:j[1].text.replace(' ','').replace('：','') for j in  zip(i.select('div.one'),i.select('div.two'))} for i in soup_detail.select('ul.clearfix.labelList.labelList-1 > li')]
+        attrs = [{trans[''.join(i.text.split(':')[0].split())] if ''.join(i.text.split(':')[0].split()) in trans else None:''.join(i.text.split(':')[1].split()) } for i in soup_detail.select('ul.attr > li')]
         try:
             out_rec = {
                 'hid' : hid,

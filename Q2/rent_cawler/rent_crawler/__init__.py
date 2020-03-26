@@ -3,7 +3,8 @@ from itertools import chain
 from rent_crawler.config.headers import user_agent_list
 from rent_crawler.config.region_map import region_map
 from rent_crawler.crawlers import get_searchUrlist,get_house
-from rent_crawler.mongo import *
+from rent_crawler.mongo import mongoDB
+import pandas as pd
 from os import environ 
 import pymongo
 import random
@@ -30,6 +31,7 @@ def main(**kwargs):
     # # print(crawlerList_v1)
     crawlerList = crawlerList_v1
     data_info = get_house(crawlerList, headers)
+    pd.DataFrame(data_info).to_pickle('./data_info.pkl')
     print(data_info[-1])
     print(len(data_info))
 

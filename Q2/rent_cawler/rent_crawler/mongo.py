@@ -16,7 +16,7 @@ print(uri)
 mongo_client = pymongo.MongoClient(uri)
 db = mongo_client['Cluster0']
 
-class mongoDB:
+class mongoDB(pymongo.database.Database):
 	def __init__(self, collection_nm):
 		self.collection_nm = collection_nm
 		self.collection = db[self.collection_nm]

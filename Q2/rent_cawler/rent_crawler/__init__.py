@@ -3,7 +3,7 @@ from itertools import chain
 from rent_crawler.config.headers import user_agent_list
 from rent_crawler.config.region_map import region_map
 from rent_crawler.crawlers import get_searchUrlist,get_house
-from rent_crawler.mongo import mongoDB
+from rent_crawler.mongo import *
 from os import environ 
 import pymongo
 import random

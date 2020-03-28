@@ -94,15 +94,15 @@ def get_house(searchUrl,headers):
         try:
             dialPhone = soup_detail.select('div.userInfo > div > span.dialPhoneNum')[0]['data-value']
         except :
-            dialPhone = None
+            dialPhone = ''
         try:
             hid_tel =  soup_detail.select('div.userInfo > div > input#hid_tel')[0]['value'] 
         except:
-            hid_tel = None
+            hid_tel = ''
         try:
             hid_email = soup_detail.select('div.userInfo > div > input#hid_email')[0]['value']
         except:
-            hid_email = None
+            hid_email = ''
 
         # if soup_detail.select('div.userInfo > div > span.kfCallName')[0]['data-name']:
         #     name = soup_detail.select('div.userInfo > div > span.kfCallName')[0]['data-name']
@@ -112,8 +112,8 @@ def get_house(searchUrl,headers):
         #     hid_tel =  soup_detail.select('div.userInfo > div > input#hid_tel')[0]['value'] 
         # if  soup_detail.select('div.userInfo > div > input#hid_email')[0]['value']:
         #     hid_email = soup_detail.select('div.userInfo > div > input#hid_email')[0]['value']
-        infs = [{trans[j[0].text.replace(' ','')] if j[0].text.replace(' ','') in trans else None:j[1].text.replace(' ','').replace('：','') for j in  zip(i.select('div.one'),i.select('div.two'))} for i in soup_detail.select('ul.clearfix.labelList.labelList-1 > li')]
-        attrs = [{trans[''.join(i.text.split(':')[0].split())] if ''.join(i.text.split(':')[0].split()) in trans else None:''.join(i.text.split(':')[1].split()) } for i in soup_detail.select('ul.attr > li')]
+        infs = [{trans[j[0].text.replace(' ','')] if j[0].text.replace(' ','') in trans else '':j[1].text.replace(' ','').replace('：','') for j in  zip(i.select('div.one'),i.select('div.two'))} for i in soup_detail.select('ul.clearfix.labelList.labelList-1 > li')]
+        attrs = [{trans[''.join(i.text.split(':')[0].split())] if ''.join(i.text.split(':')[0].split()) in trans else '':''.join(i.text.split(':')[1].split()) } for i in soup_detail.select('ul.attr > li')]
         try:
             out_rec = {
                 'hid' : hid,
